@@ -154,7 +154,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'book',
+          action: 'confirm',
           venueId,
           date: selectedDate.toISOString().split('T')[0],
           slotTime: selectedSlot,
@@ -167,8 +167,12 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
       if (res.ok) {
         setSuccessMessage(`${t("widget.success" as any)} ${selectedSlot}!`);
         setStep(4); // Success step
+      } else {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to book');
       }
-    } catch (err) {
+    } catch (err: any) {
+      setCustomAlert(err.message || (lang === 'en' ? 'Booking failed.' : 'Bokningen misslyckades.'));
       setCustomAlert(lang === 'en' ? 'Booking failed.' : 'Bokningen misslyckades.');
     } finally {
       setIsPaying(false);
