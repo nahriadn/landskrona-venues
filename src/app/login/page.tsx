@@ -17,60 +17,76 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="flex-grow bg-slate-50 min-h-screen">
-      <div className="container mx-auto px-4 py-12 lg:py-24 max-w-6xl">
-        <div className="text-center mb-12 lg:mb-16">
-          <h1 className="text-4xl lg:text-5xl font-bold text-morkbla-900 mb-4 tracking-tight">
+    <div className="flex-grow relative flex flex-col bg-beige">
+      {/* Decorative Hero Background (Matches Main Page) */}
+      <div className="absolute top-0 left-0 right-0 h-80 bg-morkbla-900 z-0 overflow-hidden">
+        <img 
+          src="https://cms.landskrona.se/wp-content/uploads/2023/02/landskrona-stadsbibliotek-1536x1018-1.jpeg" 
+          alt="" 
+          className="w-full h-full object-cover opacity-10"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-morkbla-900/50 to-beige"></div>
+      </div>
+
+      <main className="relative z-10 container mx-auto px-4 py-12 lg:py-16 max-w-5xl flex-grow flex flex-col justify-center">
+        
+        <div className="text-center mb-12">
+          <span className="bg-white/10 border border-white/20 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-6 inline-block backdrop-blur-md uppercase tracking-widest shadow-sm">
+            {lang === 'en' ? 'Secure Authentication' : lang === 'da' ? 'Sikker Godkendelse' : 'Säker Inloggning'}
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-bold text-morkbla-900 drop-shadow-sm mb-4 tracking-tight">
             {lang === 'en' ? 'Welcome back' : lang === 'da' ? 'Velkommen tilbage' : 'Välkommen tillbaka'}
           </h1>
-          <p className="text-slate-500 text-lg">
+          <p className="text-slate-600/90 text-lg font-medium max-w-xl mx-auto">
             {lang === 'en' ? 'Choose how you want to log in to Landskrona Venues' : lang === 'da' ? 'Vælg hvordan du vil logge ind på Landskrona Lokaler' : 'Välj hur du vill logga in på Landskrona Lokaler'}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 items-stretch relative">
           
-          {/* Left Column: BankID (Fast Path) */}
-          <div className="flex flex-col items-center">
-            <div className="w-full max-w-md">
-              <div className="mb-6 text-center lg:text-left">
-                <span className="inline-block bg-ljusturkos-100 text-morkbla text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">
+          {/* Vertical OR Badge Divider for Desktop */}
+          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white border-2 border-beige-200 rounded-full items-center justify-center z-20 shadow-sm">
+            <span className="text-xs font-bold text-slate-400">
+              {lang === 'en' ? 'OR' : lang === 'da' ? 'EL' : 'ELLER'}
+            </span>
+          </div>
+
+          {/* Left Card: BankID */}
+          <div className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-beige-200 overflow-hidden flex flex-col relative group">
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-ljusturkos group-hover:bg-morkbla transition-colors"></div>
+            <div className="p-8 md:p-10 flex-grow flex flex-col items-center">
+              <div className="mb-6 text-center">
+                <span className="inline-block bg-ljusturkos-50 text-morkbla-900 border border-ljusturkos-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">
                   {lang === 'en' ? 'Recommended' : lang === 'da' ? 'Anbefalet' : 'Rekommenderas'}
                 </span>
                 <h2 className="text-2xl font-bold text-slate-800">
                   {lang === 'en' ? 'Log in with BankID' : lang === 'da' ? 'Log ind med BankID' : 'Logga in med BankID'}
                 </h2>
-                <p className="text-slate-500 mt-2 text-sm">
+                <p className="text-slate-500 mt-2 text-sm leading-relaxed">
                   {lang === 'en' ? 'Fast and secure for Swedish citizens and corporate signatories.' : lang === 'da' ? 'Hurtigt og sikkert for svenske borgere og tegningsberettigede.' : 'Snabbt och säkert för privatpersoner och firmatecknare.'}
                 </p>
               </div>
-              <BankIDSimulator lang={lang} />
+              <div className="w-full flex-grow flex flex-col justify-center">
+                <BankIDSimulator lang={lang} />
+              </div>
             </div>
           </div>
 
-          {/* Vertical Divider for Desktop */}
-          <div className="hidden lg:block absolute left-1/2 top-1/4 bottom-1/4 w-px bg-slate-200 -translate-x-1/2"></div>
-          
-          {/* Horizontal Divider for Mobile */}
-          <div className="lg:hidden w-full h-px bg-slate-200 my-4 flex items-center justify-center">
-            <span className="bg-slate-50 px-4 text-slate-400 font-bold text-sm uppercase tracking-widest">
-              {lang === 'en' ? 'OR' : lang === 'da' ? 'ELLER' : 'ELLER'}
-            </span>
-          </div>
-
-          {/* Right Column: Email/Password (Alternative Path) */}
-          <div className="flex flex-col items-center lg:items-start w-full">
-            <div className="w-full max-w-md lg:ml-auto">
-              <div className="mb-8 text-center lg:text-left">
+          {/* Right Card: Email/Password */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-beige-200 overflow-hidden flex flex-col relative group">
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-300 group-hover:bg-slate-400 transition-colors"></div>
+            <div className="p-8 md:p-10 flex-grow flex flex-col">
+              <div className="mb-8 text-center">
+                <div className="inline-block h-6 mb-3"></div> {/* Spacer to align titles */}
                 <h2 className="text-2xl font-bold text-slate-800">
                   {lang === 'en' ? 'Log in with Email' : lang === 'da' ? 'Log ind med E-mail' : 'Logga in med E-post'}
                 </h2>
-                <p className="text-slate-500 mt-2 text-sm">
-                  {lang === 'en' ? 'For international users, guest speakers, or those without BankID.' : lang === 'da' ? 'For internationale brugere eller dem uden BankID.' : 'För internationella användare eller för dig som saknar BankID.'}
+                <p className="text-slate-500 mt-2 text-sm leading-relaxed">
+                  {lang === 'en' ? 'For international users, guest speakers, or those without BankID.' : lang === 'da' ? 'For internationale brugere eller dem uden BankID.' : 'För internationella användare eller för dig som saknar svenskt BankID.'}
                 </p>
               </div>
               
-              <div className="bg-white border border-slate-200 rounded-3xl shadow-lg p-8 md:p-10 w-full">
+              <div className="w-full flex-grow flex flex-col justify-center">
                 <form className="space-y-5" action={simulateEmailLogin}>
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">
@@ -80,7 +96,7 @@ export default async function LoginPage() {
                       type="email" 
                       placeholder="namn@exempel.se" 
                       required
-                      className="w-full px-4 py-3.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium"
                     />
                   </div>
                   <div>
@@ -96,12 +112,12 @@ export default async function LoginPage() {
                       type="password" 
                       placeholder="••••••••" 
                       required
-                      className="w-full px-4 py-3.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium"
                     />
                   </div>
                   
-                  <div className="pt-4">
-                    <button type="submit" className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md">
+                  <div className="pt-6">
+                    <button type="submit" className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md active:scale-[0.98]">
                       {lang === 'en' ? 'Log In' : lang === 'da' ? 'Log ind' : 'Logga in'}
                     </button>
                   </div>
@@ -120,7 +136,7 @@ export default async function LoginPage() {
           </div>
           
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
