@@ -216,7 +216,7 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
                             <button onClick={() => handleStatusChange(booking.id, 'rejected')} className="p-2 bg-red-50 hover:bg-red-500 text-red-600 hover:text-white rounded-lg transition-all shadow-sm"><XCircle className="w-5 h-5" /></button>
                           </div>
                         ) : (
-                          <button className="text-slate-400 hover:text-morkbla transition-colors font-bold text-sm flex items-center justify-end w-full">
+                          <button onClick={() => handleStatusChange(booking.id, 'pending')} className="text-slate-400 hover:text-morkbla transition-colors font-bold text-sm flex items-center justify-end w-full">
                             {t("admin.action_manage" as any)} <ChevronRight className="w-4 h-4 ml-1" />
                           </button>
                         )}
