@@ -82,7 +82,7 @@ export default async function VenuePage({ params }: { params: Promise<{ id: stri
                     <ul className="space-y-3">
                       {venue.accessibility.map((item: string, idx: number) => (
                         <li key={idx} className="flex items-start text-slate-700">
-                          <svg className="w-5 h-5 mr-3 text-slate-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                          <CheckCircle className="w-5 h-5 mr-3 text-morkbla opacity-70 mt-0.5" />
                           <span className="font-medium">{item}</span>
                         </li>
                       ))}
