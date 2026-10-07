@@ -17,6 +17,9 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
     const password = formData.get('password') as string;
     const firstName = formData.get('first_name') as string;
     const lastName = formData.get('last_name') as string;
+    if (!email || !password || !firstName || !lastName) {
+      redirect('/register?error=missing');
+    }
     
     // Check if exists
     const { data: existing } = await supabase.from('demo_users').select('*').eq('email', email).single();
@@ -106,6 +109,11 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
               </div>
               
               <div className="w-full flex-grow flex flex-col justify-center">
+                {resolvedSearchParams?.error === 'missing' && (
+                  <div className="mb-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-lg text-sm font-bold text-center">
+                    {lang === 'en' ? 'Please fill out all fields.' : 'Vänligen fyll i alla fält.'}
+                  </div>
+                )}
                 {resolvedSearchParams?.error === 'exists' && (
                   <div className="mb-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-lg text-sm font-bold text-center">
                     {lang === 'en' ? 'Account already exists.' : 'Ett konto med den e-postadressen finns redan.'}
@@ -117,26 +125,26 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
                       <label className="block text-sm font-bold text-slate-700 mb-1.5">
                         {lang === 'en' ? 'First name' : lang === 'da' ? 'Fornavn' : 'Förnamn'}
                       </label>
-                      <input type="text" name="first_name" placeholder="Anna" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
+                      <input type="text" name="first_name" placeholder="Anna" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-slate-700 mb-1.5">
                         {lang === 'en' ? 'Last name' : lang === 'da' ? 'Efternavn' : 'Efternamn'}
                       </label>
-                      <input type="text" name="last_name" placeholder="Andersson" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
+                      <input type="text" name="last_name" placeholder="Andersson" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                     </div>
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">
                       {lang === 'en' ? 'Email address' : lang === 'da' ? 'E-mailadresse' : 'E-postadress'}
                     </label>
-                    <input type="email" name="email" placeholder="namn@exempel.se" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
+                    <input type="email" name="email" placeholder="namn@exempel.se" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">
                       {lang === 'en' ? 'Password' : lang === 'da' ? 'Adgangskode' : 'Lösenord'}
                     </label>
-                    <input type="password" name="password" placeholder="••••••••" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
+                    <input type="password" name="password" placeholder="••••••••" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                   </div>
                   
                   <div className="pt-5">

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getTranslation } from '@/lib/i18n';
-import { Calendar as CalendarIcon, Clock, User, CheckCircle, ChevronRight, ChevronLeft, Building, Mail, XCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, User, CheckCircle, ChevronRight, ChevronLeft, Building, Mail, XCircle, Phone } from 'lucide-react';
 
 export default function BookingWidget({ venueId, lang }: { venueId: string, lang: string }) {
   const t = getTranslation(lang);
@@ -19,6 +19,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
   const [name, setName] = useState('');
   const [orgNum, setOrgNum] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
 
   // Lock/Booking state
   const [unavailableSlots, setUnavailableSlots] = useState<string[]>([]);
@@ -138,8 +139,13 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
   };
 
   const handleNextToConfirm = () => {
-    if (!name || !email) {
+    if (!name || !email || !phone) {
       setCustomAlert(lang === 'en' ? 'Please fill in all required fields' : 'Vänligen fyll i alla obligatoriska fält');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setCustomAlert(lang === 'en' ? 'Please enter a valid email address' : 'Vänligen ange en giltig e-postadress');
       return;
     }
     setCustomAlert(null);
@@ -160,7 +166,8 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
           slotTime: selectedSlot,
           name,
           orgNum,
-          email
+          email,
+          phone
         })
       });
       
@@ -363,6 +370,17 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla outline-none transition-all font-medium"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-1.5 flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-slate-400" /> {lang === 'en' ? 'Phone Number *' : 'Telefonnummer *'}
+                </label>
+                <input 
+                  type="tel" 
+                  value={phone} 
+                  onChange={e => setPhone(e.target.value)} 
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla outline-none transition-all font-medium"
+                />
+              </div>
             </div>
 
             <div className="flex gap-3">
@@ -399,7 +417,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
               </div>
               <div className="flex justify-between pb-2">
                 <span className="text-slate-500 font-bold text-sm uppercase tracking-widest">{lang === 'en' ? 'Contact' : 'Kontakt'}</span>
-                <span className="font-bold text-slate-800 text-right">{email}</span>
+                <span className="font-bold text-slate-800 text-right">{email}<br/><span className="text-slate-500 text-sm font-medium">{phone}</span></span>
               </div>
             </div>
 

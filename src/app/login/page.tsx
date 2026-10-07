@@ -107,7 +107,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">
                       {lang === 'en' ? 'Email address' : lang === 'da' ? 'E-mailadresse' : 'E-postadress'}
                     </label>
-                    <input type="email" name="email" placeholder="namn@exempel.se" required className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
+                    <input type="email" name="email" placeholder="namn@exempel.se" className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                   </div>
                   <div>
                     <div className="flex justify-between items-center mb-1.5">
@@ -118,7 +118,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
                         {lang === 'en' ? 'Forgot password?' : lang === 'da' ? 'Glemt adgangskode?' : 'Glömt lösenordet?'}
                       </a>
                     </div>
-                    <input type="password" name="password" placeholder="••••••••" required className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
+                    <input type="password" name="password" placeholder="••••••••" className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                   </div>
                   
                   <div className="pt-6">

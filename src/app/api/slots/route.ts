@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { action, venueId, date, slotTime, name, orgNum, email } = body;
+  const { action, venueId, date, slotTime, name, orgNum, email, phone } = body;
   
   if (!action || !venueId || !date || !slotTime) {
     return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
@@ -81,7 +81,8 @@ export async function POST(request: Request) {
       .update({
         user_name: name || 'Private Citizen',
         org_num: orgNum,
-        email: email
+        email: email,
+        phone: phone
       })
       .eq('venue_id', venueId)
       .eq('date', date)
