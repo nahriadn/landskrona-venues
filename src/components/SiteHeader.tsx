@@ -100,7 +100,7 @@ export default function SiteHeader({ lang, tBack, session }: { lang: string, tBa
                       <div className="px-5 py-4 border-b border-slate-100 mb-1 bg-slate-50 flex items-center gap-3">
                         <img src={userAvatar} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
                         <div>
-                          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('profile.type', 'Användare')}</p>
+                          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{lang === 'en' ? 'Signed in as' : lang === 'da' ? 'Logget ind som' : 'Inloggad som'}</p>
                           <p className="text-sm font-bold text-morkbla truncate">{session === 'admin' ? 'Administratör' : 'Test Förening'}</p>
                         </div>
                       </div>
@@ -162,7 +162,7 @@ export default function SiteHeader({ lang, tBack, session }: { lang: string, tBa
                 <div className="px-4 py-3 mb-2 flex items-center gap-3 bg-white/5 rounded-xl border border-white/10">
                   <img src={userAvatar} alt="Profile" className="w-10 h-10 rounded-full object-cover border border-white/30" />
                   <div>
-                    <p className="text-xs text-white/50 uppercase tracking-widest">{t('profile.type', 'Användare')}</p>
+                    <p className="text-xs text-white/50 uppercase tracking-widest">{lang === 'en' ? 'Signed in as' : lang === 'da' ? 'Logget ind som' : 'Inloggad som'}</p>
                     <p className="text-sm font-bold text-white">{session === 'admin' ? 'Administratör' : 'Test Förening'}</p>
                   </div>
                 </div>
