@@ -5,7 +5,8 @@ import { getTranslation } from '@/lib/i18n';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
-export default async function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const resolvedSearchParams = await searchParams;
   const cookieStore = await cookies();
   const lang = cookieStore.get('lang')?.value || 'sv';
   const t = getTranslation(lang);
@@ -96,7 +97,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { erro
               </div>
               
               <div className="w-full flex-grow flex flex-col justify-center">
-                {searchParams?.error === 'invalid' && (
+                {resolvedSearchParams?.error === 'invalid' && (
                   <div className="mb-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-lg text-sm font-bold text-center">
                     {lang === 'en' ? 'Invalid email or password.' : 'Fel e-postadress eller lösenord.'}
                   </div>

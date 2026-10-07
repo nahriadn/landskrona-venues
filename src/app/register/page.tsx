@@ -5,7 +5,8 @@ import { getTranslation } from '@/lib/i18n';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
-export default async function RegisterPage({ searchParams }: { searchParams: { error?: string } }) {
+export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const resolvedSearchParams = await searchParams;
   const cookieStore = await cookies();
   const lang = cookieStore.get('lang')?.value || 'sv';
   const t = getTranslation(lang);
@@ -105,7 +106,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: { e
               </div>
               
               <div className="w-full flex-grow flex flex-col justify-center">
-                {searchParams?.error === 'exists' && (
+                {resolvedSearchParams?.error === 'exists' && (
                   <div className="mb-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-lg text-sm font-bold text-center">
                     {lang === 'en' ? 'Account already exists.' : 'Ett konto med den e-postadressen finns redan.'}
                   </div>
