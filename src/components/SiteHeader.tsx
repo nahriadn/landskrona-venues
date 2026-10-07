@@ -1,14 +1,13 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LogIn, UserPlus, LogOut, User, LayoutDashboard, Phone, MessageSquare, ChevronDown, Menu } from 'lucide-react';
+import { LogIn, UserPlus, LogOut, LayoutDashboard, Phone, MessageSquare, ChevronDown, Menu } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import LanguagePicker from './LanguagePicker';
 import { getTranslation } from '@/lib/i18n';
 
 export default function SiteHeader({ lang, tBack, session }: { lang: string, tBack: string, session?: string }) {
   const pathname = usePathname();
-  const isVenuePage = pathname.startsWith('/venue/');
   const t = getTranslation(lang);
   const router = useRouter();
 
@@ -28,11 +27,17 @@ export default function SiteHeader({ lang, tBack, session }: { lang: string, tBa
 
   const handleLogout = () => {
     document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+    document.cookie = 'user_email=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+    document.cookie = 'user_name=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
     setIsUserMenuOpen(false);
     setIsMobileOpen(false);
     router.push('/');
     router.refresh();
   };
+
+  const adminAvatar = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?fit=facearea&facepad=2&w=256&h=256&q=80";
+  const clientAvatar = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=facearea&facepad=2&w=256&h=256&q=80";
+  const userAvatar = session === 'admin' ? adminAvatar : clientAvatar;
 
   return (
     <header className="bg-morkbla shadow-lg sticky top-0 z-50 text-white border-b border-morkbla-900/50">
@@ -82,19 +87,22 @@ export default function SiteHeader({ lang, tBack, session }: { lang: string, tBa
               <div className="relative" ref={userMenuRef}>
                 <button 
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="bg-white/10 hover:bg-white/20 text-white text-sm font-bold py-2.5 px-5 rounded-full transition-all flex items-center gap-2 border border-white/10"
+                  className="bg-white/10 hover:bg-white/20 text-white text-sm font-bold py-2 px-4 rounded-full transition-all flex items-center gap-3 border border-white/10"
                 >
-                  <User className="w-4 h-4" />
+                  <img src={userAvatar} alt="Profile" className="w-6 h-6 rounded-full object-cover border border-white/50" />
                   {session === 'admin' ? 'Admin' : t('profile.title', 'Mina Sidor')}
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 \${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={'w-4 h-4 transition-transform duration-200 ' + (isUserMenuOpen ? 'rotate-180' : '')} />
                 </button>
 
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="py-2">
-                      <div className="px-5 py-3 border-b border-slate-100 mb-1 bg-slate-50">
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('profile.type', 'Användare')}</p>
-                        <p className="text-sm font-bold text-morkbla truncate">{session === 'admin' ? 'Administratör' : 'Test Förening'}</p>
+                      <div className="px-5 py-4 border-b border-slate-100 mb-1 bg-slate-50 flex items-center gap-3">
+                        <img src={userAvatar} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
+                        <div>
+                          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('profile.type', 'Användare')}</p>
+                          <p className="text-sm font-bold text-morkbla truncate">{session === 'admin' ? 'Administratör' : 'Test Förening'}</p>
+                        </div>
                       </div>
                       
                       <Link href={session === 'admin' ? '/admin' : '/profile'} onClick={() => setIsUserMenuOpen(false)} className="px-5 py-3 text-sm font-bold text-slate-700 hover:text-morkbla hover:bg-ljusturkos-50 transition-colors flex items-center gap-3">
@@ -151,8 +159,15 @@ export default function SiteHeader({ lang, tBack, session }: { lang: string, tBa
               </div>
             ) : (
               <div className="space-y-2 pt-2">
+                <div className="px-4 py-3 mb-2 flex items-center gap-3 bg-white/5 rounded-xl border border-white/10">
+                  <img src={userAvatar} alt="Profile" className="w-10 h-10 rounded-full object-cover border border-white/30" />
+                  <div>
+                    <p className="text-xs text-white/50 uppercase tracking-widest">{t('profile.type', 'Användare')}</p>
+                    <p className="text-sm font-bold text-white">{session === 'admin' ? 'Administratör' : 'Test Förening'}</p>
+                  </div>
+                </div>
                 <Link href={session === 'admin' ? '/admin' : '/profile'} onClick={() => setIsMobileOpen(false)} className="block px-4 py-3 text-lg font-bold text-ljusturkos hover:bg-white/10 rounded-xl transition-colors flex items-center gap-3">
-                  <User className="w-5 h-5" /> {session === 'admin' ? 'Admin Dashboard' : t('profile.title', 'Mina Sidor')}
+                  <LayoutDashboard className="w-5 h-5" /> {session === 'admin' ? 'Admin Dashboard' : t('profile.title', 'Mina Sidor')}
                 </Link>
                 <button onClick={handleLogout} className="w-full text-left px-4 py-3 text-lg font-bold text-red-400 hover:bg-white/10 rounded-xl transition-colors flex items-center gap-3">
                   <LogOut className="w-5 h-5" /> {t('menu.logout', 'Logga ut')}

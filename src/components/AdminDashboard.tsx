@@ -137,12 +137,19 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
     <main className="container mx-auto px-4 lg:px-8 py-8 lg:py-12 max-w-7xl">
       <CustomModal {...modal} />
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-morkbla-900 tracking-tight">{t('admin.title', 'Personalinloggning')}</h1>
-          <p className="text-slate-500 mt-2 font-medium flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-            {t('admin.logged_in', 'Inloggad som Handläggare (Kulturförvaltningen)')}
-          </p>
+        <div className="flex items-center gap-5">
+          <img 
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?fit=facearea&facepad=2&w=256&h=256&q=80" 
+            alt="Admin Profile" 
+            className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-md"
+          />
+          <div>
+            <h1 className="text-3xl font-bold text-morkbla-900 tracking-tight">{t('admin.title', 'Personalinloggning')}</h1>
+            <p className="text-slate-500 mt-2 font-medium flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+              {t('admin.logged_in', 'Inloggad som Handläggare (Kulturförvaltningen)')}
+            </p>
+          </div>
         </div>
       </div>
 
