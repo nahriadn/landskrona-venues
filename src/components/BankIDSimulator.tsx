@@ -13,6 +13,7 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
   // Vault State
   const [vaultCode, setVaultCode] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
+  const [pinError, setPinError] = useState(false);
 
   const startLogin = () => setState('qr');
   
@@ -20,8 +21,6 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
     setState('loading');
     setTimeout(() => {
       setState('success');
-      // Intentionally NOT logging in or redirecting here. 
-      // The presenter must use the PIN code to unlock the actual login options.
     }, 2000);
   };
 
@@ -29,8 +28,9 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
     e.preventDefault();
     if (vaultCode === '981030') {
       setIsVaultUnlocked(true);
+      setPinError(false);
     } else {
-      alert(lang === 'en' ? 'Incorrect PIN code' : 'Fel PIN-kod');
+      setPinError(true);
       setVaultCode('');
     }
   };
@@ -102,15 +102,23 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
                   <input 
                     type="password" 
                     value={vaultCode}
-                    onChange={(e) => setVaultCode(e.target.value)}
+                    onChange={(e) => {
+                      setVaultCode(e.target.value);
+                      if (pinError) setPinError(false);
+                    }}
                     placeholder="PIN" 
-                    className="w-24 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center text-sm focus:bg-white focus:ring-2 focus:ring-morkbla outline-none transition-all font-bold"
+                    className={'w-24 px-3 py-2.5 border rounded-xl text-center text-sm outline-none transition-all font-bold ' + (pinError ? 'bg-red-50 border-red-300 text-red-900 focus:ring-2 focus:ring-red-400' : 'bg-slate-50 border-slate-200 focus:bg-white focus:ring-2 focus:ring-morkbla')}
                     autoFocus
                   />
                   <button type="submit" className="bg-morkbla hover:bg-morkbla-900 text-white px-4 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all active:scale-95">
                     Lås upp
                   </button>
                 </div>
+                {pinError && (
+                  <p className="text-xs font-bold text-red-500 bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 animate-in slide-in-from-top-1 fade-in duration-200 w-full mt-1 shadow-sm">
+                    {lang === 'en' ? 'Incorrect PIN code' : 'Fel PIN-kod'}
+                  </p>
+                )}
               </form>
             ) : (
               <div className="w-full animate-in fade-in slide-in-from-bottom-2">
