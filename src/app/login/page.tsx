@@ -3,28 +3,40 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getTranslation } from '@/lib/i18n';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
-export default async function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
   const cookieStore = await cookies();
   const lang = cookieStore.get('lang')?.value || 'sv';
   const t = getTranslation(lang);
 
-  async function simulateEmailLogin() {
+  async function handleLogin(formData: FormData) {
     'use server';
-    const cookiesList = await cookies();
-    cookiesList.set('session', 'client', { path: '/' });
-    redirect('/profile');
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    
+    const { data } = await supabase
+      .from('demo_users')
+      .select('*')
+      .eq('email', email)
+      .eq('password', password)
+      .single();
+
+    if (data) {
+      const cookiesList = await cookies();
+      cookiesList.set('session', 'client', { path: '/' });
+      cookiesList.set('user_email', email, { path: '/' });
+      cookiesList.set('user_name', data.first_name + ' ' + data.last_name, { path: '/' });
+      redirect('/profile');
+    } else {
+      redirect('/login?error=invalid');
+    }
   }
 
   return (
     <div className="flex-grow relative flex flex-col bg-beige">
-      {/* Decorative Hero Background (Matches Main Page) */}
       <div className="absolute top-0 left-0 right-0 h-80 bg-morkbla-900 z-0 overflow-hidden">
-        <img 
-          src="https://cms.landskrona.se/wp-content/uploads/2023/02/landskrona-stadsbibliotek-1536x1018-1.jpeg" 
-          alt="" 
-          className="w-full h-full object-cover opacity-10"
-        />
+        <img src="https://cms.landskrona.se/wp-content/uploads/2023/02/landskrona-stadsbibliotek-1536x1018-1.jpeg" alt="" className="w-full h-full object-cover opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-b from-morkbla-900/50 to-beige"></div>
       </div>
 
@@ -44,14 +56,12 @@ export default async function LoginPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 items-stretch relative">
           
-          {/* Vertical OR Badge Divider for Desktop */}
           <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white border-2 border-beige-200 rounded-full items-center justify-center z-20 shadow-sm">
             <span className="text-xs font-bold text-slate-400">
               {lang === 'en' ? 'OR' : lang === 'da' ? 'EL' : 'ELLER'}
             </span>
           </div>
 
-          {/* Left Card: BankID */}
           <div className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-beige-200 overflow-hidden flex flex-col relative group">
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-ljusturkos group-hover:bg-morkbla transition-colors"></div>
             <div className="p-8 md:p-10 flex-grow flex flex-col items-center">
@@ -72,12 +82,11 @@ export default async function LoginPage() {
             </div>
           </div>
 
-          {/* Right Card: Email/Password */}
           <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-beige-200 overflow-hidden flex flex-col relative group">
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-300 group-hover:bg-slate-400 transition-colors"></div>
             <div className="p-8 md:p-10 flex-grow flex flex-col">
               <div className="mb-8 text-center">
-                <div className="inline-block h-6 mb-3"></div> {/* Spacer to align titles */}
+                <div className="inline-block h-6 mb-3"></div> 
                 <h2 className="text-2xl font-bold text-slate-800">
                   {lang === 'en' ? 'Log in with Email' : lang === 'da' ? 'Log ind med E-mail' : 'Logga in med E-post'}
                 </h2>
@@ -87,17 +96,17 @@ export default async function LoginPage() {
               </div>
               
               <div className="w-full flex-grow flex flex-col justify-center">
-                <form className="space-y-5" action={simulateEmailLogin}>
+                {searchParams?.error === 'invalid' && (
+                  <div className="mb-4 p-3 bg-red-50 text-red-700 border border-red-200 rounded-lg text-sm font-bold text-center">
+                    {lang === 'en' ? 'Invalid email or password.' : 'Fel e-postadress eller lösenord.'}
+                  </div>
+                )}
+                <form className="space-y-5" action={handleLogin}>
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">
                       {lang === 'en' ? 'Email address' : lang === 'da' ? 'E-mailadresse' : 'E-postadress'}
                     </label>
-                    <input 
-                      type="email" 
-                      placeholder="namn@exempel.se" 
-                      required
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium"
-                    />
+                    <input type="email" name="email" placeholder="namn@exempel.se" required className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                   </div>
                   <div>
                     <div className="flex justify-between items-center mb-1.5">
@@ -108,12 +117,7 @@ export default async function LoginPage() {
                         {lang === 'en' ? 'Forgot password?' : lang === 'da' ? 'Glemt adgangskode?' : 'Glömt lösenordet?'}
                       </a>
                     </div>
-                    <input 
-                      type="password" 
-                      placeholder="••••••••" 
-                      required
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium"
-                    />
+                    <input type="password" name="password" placeholder="••••••••" required className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800 font-medium" />
                   </div>
                   
                   <div className="pt-6">
