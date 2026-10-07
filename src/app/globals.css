@@ -1,26 +1,189 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Ciutadella';
+  src: url('https://www.landskrona.se/static/Ciutadella-Medium-e501709a3f6ae6d660fded1295e2f49d.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Ciutadella';
+  src: url('https://www.landskrona.se/static/Ciutadella-SemiBold-87ae1130d932b6823475346f02cb2614.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Ciutadella';
+  src: url('https://www.landskrona.se/static/Ciutadella-Bold-3aa1daccbadfd623f740507ebddb9694.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('https://www.landskrona.se/static/inter-latin-400-normal-be7cb18dc7caf47cf7e948341507713a.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Landskrona Official Brand Colors */
+  --brand-color-ljusturkos: #ecf1f2;
+  --brand-color-ljusturkos-text: black;
+  --brand-color-ljusturkos-50: #f7f9f9;
+  --brand-color-ljusturkos-50-text: black;
+  --brand-color-ljusturkos-100: #f0f2f3;
+  --brand-color-ljusturkos-100-text: black;
+  --brand-color-ljusturkos-200: #e1e6e6;
+  --brand-color-ljusturkos-200-text: black;
+  --brand-color-ljusturkos-300: #ccd1d2;
+  --brand-color-ljusturkos-300-text: black;
+  --brand-color-ljusturkos-400: #b4b9ba;
+  --brand-color-ljusturkos-400-text: black;
+  --brand-color-ljusturkos-500: #9a9e9f;
+  --brand-color-ljusturkos-500-text: black;
+  --brand-color-ljusturkos-600: #7d8182;
+  --brand-color-ljusturkos-600-text: black;
+  --brand-color-ljusturkos-700: #5f6364;
+  --brand-color-ljusturkos-700-text: white;
+  --brand-color-ljusturkos-800: #404445;
+  --brand-color-ljusturkos-800-text: white;
+  --brand-color-ljusturkos-900: #222626;
+  --brand-color-ljusturkos-900-text: white;
+  
+  --brand-color-morkbla: #00546f;
+  --brand-color-morkbla-text: white;
+  --brand-color-morkbla-50: #eefbff;
+  --brand-color-morkbla-50-text: black;
+  --brand-color-morkbla-100: #ddf6ff;
+  --brand-color-morkbla-100-text: black;
+  --brand-color-morkbla-200: #b8edff;
+  --brand-color-morkbla-200-text: black;
+  --brand-color-morkbla-300: #9dd9f4;
+  --brand-color-morkbla-300-text: black;
+  --brand-color-morkbla-400: #85c0e0;
+  --brand-color-morkbla-400-text: black;
+  --brand-color-morkbla-500: #69a5c3;
+  --brand-color-morkbla-500-text: black;
+  --brand-color-morkbla-600: #4b88a5;
+  --brand-color-morkbla-600-text: black;
+  --brand-color-morkbla-700: #276985;
+  --brand-color-morkbla-700-text: white;
+  --brand-color-morkbla-800: #004966;
+  --brand-color-morkbla-800-text: white;
+  --brand-color-morkbla-900: #002845;
+  --brand-color-morkbla-900-text: white;
+  
+  --brand-color-bla: #88b5c6;
+  --brand-color-bla-text: black;
+  --brand-color-bla-50: #f0fafe;
+  --brand-color-bla-50-text: black;
+  --brand-color-bla-100: #e1f5fd;
+  --brand-color-bla-100-text: black;
+  --brand-color-bla-200: #c2ecfb;
+  --brand-color-bla-200-text: black;
+  --brand-color-bla-300: #aad7e9;
+  --brand-color-bla-300-text: black;
+  --brand-color-bla-400: #92bfd1;
+  --brand-color-bla-400-text: black;
+  --brand-color-bla-500: #78a4b5;
+  --brand-color-bla-500-text: black;
+  --brand-color-bla-600: #5b8797;
+  --brand-color-bla-600-text: black;
+  --brand-color-bla-700: #3c6979;
+  --brand-color-bla-700-text: white;
+  --brand-color-bla-800: #1a4958;
+  --brand-color-bla-800-text: white;
+  --brand-color-bla-900: #002a37;
+  --brand-color-bla-900-text: white;
+  
+  --brand-color-beige: #f7f3ed;
+  --brand-color-beige-text: black;
+  --brand-color-beige-50: #f9f8f7;
+  --brand-color-beige-50-text: black;
+  --brand-color-beige-100: #f3f2ef;
+  --brand-color-beige-100-text: black;
+  --brand-color-beige-200: #e8e4df;
+  --brand-color-beige-200-text: black;
+  --brand-color-beige-300: #d4d0ca;
+  --brand-color-beige-300-text: black;
+  --brand-color-beige-400: #bbb8b2;
+  --brand-color-beige-400-text: black;
+  --brand-color-beige-500: #a19d97;
+  --brand-color-beige-500-text: black;
+  --brand-color-beige-600: #84807b;
+  --brand-color-beige-600-text: black;
+  --brand-color-beige-700: #65625d;
+  --brand-color-beige-700-text: white;
+  --brand-color-beige-800: #46433e;
+  --brand-color-beige-800-text: white;
+  --brand-color-beige-900: #272520;
+  --brand-color-beige-900-text: white;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'Inter', var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+  
+  /* Map Landskrona Official Colors to Tailwind utilities */
+  --color-ljusturkos: var(--brand-color-ljusturkos);
+  --color-ljusturkos-50: var(--brand-color-ljusturkos-50);
+  --color-ljusturkos-100: var(--brand-color-ljusturkos-100);
+  --color-ljusturkos-200: var(--brand-color-ljusturkos-200);
+  --color-ljusturkos-300: var(--brand-color-ljusturkos-300);
+  --color-ljusturkos-400: var(--brand-color-ljusturkos-400);
+  --color-ljusturkos-500: var(--brand-color-ljusturkos-500);
+  --color-ljusturkos-600: var(--brand-color-ljusturkos-600);
+  --color-ljusturkos-700: var(--brand-color-ljusturkos-700);
+  --color-ljusturkos-800: var(--brand-color-ljusturkos-800);
+  --color-ljusturkos-900: var(--brand-color-ljusturkos-900);
+  
+  --color-morkbla: var(--brand-color-morkbla);
+  --color-morkbla-50: var(--brand-color-morkbla-50);
+  --color-morkbla-100: var(--brand-color-morkbla-100);
+  --color-morkbla-200: var(--brand-color-morkbla-200);
+  --color-morkbla-300: var(--brand-color-morkbla-300);
+  --color-morkbla-400: var(--brand-color-morkbla-400);
+  --color-morkbla-500: var(--brand-color-morkbla-500);
+  --color-morkbla-600: var(--brand-color-morkbla-600);
+  --color-morkbla-700: var(--brand-color-morkbla-700);
+  --color-morkbla-800: var(--brand-color-morkbla-800);
+  --color-morkbla-900: var(--brand-color-morkbla-900);
+  
+  --color-bla: var(--brand-color-bla);
+  --color-bla-50: var(--brand-color-bla-50);
+  --color-bla-100: var(--brand-color-bla-100);
+  --color-bla-200: var(--brand-color-bla-200);
+  --color-bla-300: var(--brand-color-bla-300);
+  --color-bla-400: var(--brand-color-bla-400);
+  --color-bla-500: var(--brand-color-bla-500);
+  --color-bla-600: var(--brand-color-bla-600);
+  --color-bla-700: var(--brand-color-bla-700);
+  --color-bla-800: var(--brand-color-bla-800);
+  --color-bla-900: var(--brand-color-bla-900);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-beige: var(--brand-color-beige);
+  --color-beige-50: var(--brand-color-beige-50);
+  --color-beige-100: var(--brand-color-beige-100);
+  --color-beige-200: var(--brand-color-beige-200);
+  --color-beige-300: var(--brand-color-beige-300);
+  --color-beige-400: var(--brand-color-beige-400);
+  --color-beige-500: var(--brand-color-beige-500);
+  --color-beige-600: var(--brand-color-beige-600);
+  --color-beige-700: var(--brand-color-beige-700);
+  --color-beige-800: var(--brand-color-beige-800);
+  --color-beige-900: var(--brand-color-beige-900);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Ciutadella', 'Inter', sans-serif;
 }

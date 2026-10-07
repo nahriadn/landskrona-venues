@@ -1,0 +1,110 @@
+[
+  {
+    "id": "thulinsalen",
+    "name": "Thulinsalen (Landskrona museum)",
+    "capacity": 75,
+    "description": "Thulinsalen på Landskrona museum kan bokas för föreläsningar, konferenser och möten.",
+    "features": [
+      "Projektor",
+      "Högtalarsystem med mikrofon",
+      "Tillkoppling via DVI och HDMI"
+    ],
+    "imageUrl": "https://cms.landskrona.se/wp-content/uploads/2022/10/thulinsalen_vy-1024x768.jpg",
+    "gallery": [
+      "https://cms.landskrona.se/wp-content/uploads/2022/10/thulinsalen_vy-2048x1536.jpg",
+      "https://cms.landskrona.se/wp-content/uploads/2023/02/thulinsalen_mocc88te-1024x768.jpg",
+      "https://cms.landskrona.se/wp-content/uploads/2022/10/thulinsalen_focc88redrag-1024x707.jpg"
+    ],
+    "accessibility": [
+      "Rullstolsanpassad entré och hiss",
+      "Handikapptoalett finns på samma våningsplan",
+      "Hörselslinga installerad"
+    ],
+    "rules": [
+      "Hyresgästen ansvarar för grovstädning och bortforsling av sopor",
+      "Ingen alkoholförtäring är tillåten utan tillstånd",
+      "Lokalen ska vara utrymd senast vid angiven sluttid"
+    ],
+    "contact": "För frågor om lokalen, kontakta kultur@landskrona.se eller ring 0418-47 00 00."
+  },
+  {
+    "id": "horsalen",
+    "name": "Hörsalen (Landskrona stadsbibliotek)",
+    "capacity": 60,
+    "description": "Hörsalen på Landskrona stadsbibliotek används ofta för föredrag och möten.",
+    "features": [],
+    "imageUrl": "https://cms.landskrona.se/wp-content/uploads/2023/02/landskrona-stadsbibliotek-1536x1018-1.jpeg",
+    "accessibility": [
+      "Rullstolsanpassad entré och hiss",
+      "Handikapptoalett finns på samma våningsplan",
+      "Hörselslinga installerad"
+    ],
+    "rules": [
+      "Hyresgästen ansvarar för grovstädning och bortforsling av sopor",
+      "Ingen alkoholförtäring är tillåten utan tillstånd",
+      "Lokalen ska vara utrymd senast vid angiven sluttid"
+    ],
+    "contact": "För frågor om lokalen, kontakta kultur@landskrona.se eller ring 0418-47 00 00."
+  },
+  {
+    "id": "motesrum-konsthallen",
+    "name": "Mötesrum Konsthallen",
+    "capacity": 20,
+    "description": "Konsthallen är en av Landskronas arkitekturpärlor. Byggd 1963 och ritad av Sten Samuelsson och Fritz Jaenecke. Här hittar ni det stilrena mötesrummet som kan användas till presentationer och konferenser. Kombinera ert besök med god mat från Thimans Vinbar. Beställning av mat eller bokning av vinprovning görs till: vinbarenilandskrona@gmail.com",
+    "features": [],
+    "imageUrl": "https://cms.landskrona.se/wp-content/uploads/2023/07/konsthallen-motesrum.jpg",
+    "accessibility": [
+      "Rullstolsanpassad entré och hiss",
+      "Handikapptoalett finns på samma våningsplan",
+      "Hörselslinga installerad"
+    ],
+    "rules": [
+      "Hyresgästen ansvarar för grovstädning och bortforsling av sopor",
+      "Ingen alkoholförtäring är tillåten utan tillstånd",
+      "Lokalen ska vara utrymd senast vid angiven sluttid"
+    ],
+    "contact": "För frågor om lokalen, kontakta kultur@landskrona.se eller ring 0418-47 00 00."
+  },
+  {
+    "id": "biograf-hanser",
+    "name": "Biograf Hanser (Landskrona Foto - Tyghuset)",
+    "capacity": 25,
+    "description": "Biograf Hanser ligger i Landskrona Fotos lokaler i Tyghuset och kan hyras för filmvisningar och föreläsningar.",
+    "features": [],
+    "imageUrl": "https://cms.landskrona.se/wp-content/uploads/2023/02/biografhansers_1-1024x678.jpg",
+    "gallery": [
+      "https://cms.landskrona.se/wp-content/uploads/2023/02/biograf-hansers_2-1024x678.jpg",
+      "https://cms.landskrona.se/wp-content/uploads/2023/02/biografhansers_1.jpg"
+    ],
+    "accessibility": [
+      "Rullstolsanpassad entré och hiss",
+      "Handikapptoalett finns på samma våningsplan",
+      "Hörselslinga installerad"
+    ],
+    "rules": [
+      "Hyresgästen ansvarar för grovstädning och bortforsling av sopor",
+      "Ingen alkoholförtäring är tillåten utan tillstånd",
+      "Lokalen ska vara utrymd senast vid angiven sluttid"
+    ],
+    "contact": "För frågor om lokalen, kontakta kultur@landskrona.se eller ring 0418-47 00 00."
+  },
+  {
+    "id": "landskrona-teater",
+    "name": "Landskrona teater",
+    "capacity": 0,
+    "description": "Vill du hyra teatern för ditt arrangemang, ett stopp på konsertturnén eller en konferens? Önskar du hyra Landskrona teater eller komma i kontakt med oss? Använd vår officiella bokningsportal nedan.",
+    "features": [],
+    "imageUrl": "https://cms.landskrona.se/wp-content/uploads/2023/02/602-landskrona-teater_toppbild.jpg",
+    "accessibility": [
+      "Rullstolsanpassad entré och hiss",
+      "Handikapptoalett finns på samma våningsplan",
+      "Hörselslinga installerad"
+    ],
+    "rules": [
+      "Hyresgästen ansvarar för grovstädning och bortforsling av sopor",
+      "Ingen alkoholförtäring är tillåten utan tillstånd",
+      "Lokalen ska vara utrymd senast vid angiven sluttid"
+    ],
+    "contact": "För frågor om lokalen, kontakta kultur@landskrona.se eller ring 0418-47 00 00."
+  }
+]
