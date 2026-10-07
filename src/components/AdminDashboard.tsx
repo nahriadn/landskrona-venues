@@ -40,7 +40,7 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
       setVenues(updatedVenues);
       setEditingVenue(null);
     } catch (err) {
-      alert("Kunde inte spara lokalerna.");
+      alert(t('admin.err_save', 'Kunde inte spara lokalerna.'));
     } finally {
       setIsSaving(false);
     }
@@ -50,8 +50,8 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
     const newId = `lokal-${Date.now()}`;
     const newVenue = {
       id: newId,
-      name: "Ny Lokal",
-      description: "Beskrivning av den nya lokalen...",
+      name: t('admin.new_venue_name', 'Ny Lokal') as string,
+      description: t('admin.new_venue_desc', 'Beskrivning av den nya lokalen...') as string,
       capacity: 50,
       price: 0,
       imageUrl: "https://www.landskrona.se/static/Krona-a64d03cf5f50a5558970d089cc0048de.png",
@@ -74,7 +74,7 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
   };
 
   const handleDeleteVenue = (id: string) => {
-    if (confirm("Är du säker på att du vill ta bort denna lokal?")) {
+    if (confirm(t('admin.confirm_delete', 'Är du säker på att du vill ta bort denna lokal?'))) {
       const updated = venues.filter(v => v.id !== id);
       saveVenues(updated);
     }
@@ -102,13 +102,13 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
             onClick={() => setActiveTab('bookings')}
             className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'bookings' ? 'bg-white text-morkbla shadow-sm' : 'text-slate-600 hover:text-slate-800'}`}
           >
-            <Calendar className="w-4 h-4" /> Bokningar
+            <Calendar className="w-4 h-4" /> {t('admin.tab_bookings', 'Bokningar')}
           </button>
           <button 
             onClick={() => setActiveTab('venues')}
             className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'venues' ? 'bg-white text-morkbla shadow-sm' : 'text-slate-600 hover:text-slate-800'}`}
           >
-            <Settings className="w-4 h-4" /> Lokaler (CMS)
+            <Settings className="w-4 h-4" /> {t('admin.tab_venues', 'Lokaler (CMS)')}
           </button>
           <button 
             onClick={() => setActiveTab('block')}
@@ -234,46 +234,46 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
         <div className="bg-white rounded-2xl shadow-sm border border-beige-200 overflow-hidden relative z-10">
           <div className="p-6 md:p-8 border-b border-beige-200 flex flex-col md:flex-row md:items-center justify-between gap-5 bg-slate-50/50">
             <h2 className="text-xl font-bold text-morkbla flex items-center">
-              Hantera Lokaler (CMS)
+              Hantera {t('admin.tab_venues', 'Lokaler (CMS)')}
               <span className="ml-3 bg-morkbla text-white text-xs py-0.5 px-2 rounded-full font-bold">{venues.length}</span>
             </h2>
             <button onClick={handleAddNewVenue} className="bg-[#136377] hover:bg-[#0f4f60] text-white font-bold py-2.5 px-5 rounded-lg flex items-center transition-all shadow-sm">
-              <Plus className="w-5 h-5 mr-2" /> Lägg till ny lokal
+              <Plus className="w-5 h-5 mr-2" /> {t('admin.add_venue', 'Lägg till ny lokal')}
             </button>
           </div>
 
           <div className="p-6 md:p-8">
             {editingVenue ? (
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-8 animate-in fade-in slide-in-from-top-4">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">{editingVenue.id.startsWith('lokal-') ? 'Skapa ny lokal' : 'Redigera lokal'}</h3>
+                <h3 className="text-lg font-bold text-slate-800 mb-4">{editingVenue.id.startsWith('lokal-') ? t('admin.create_venue', 'Skapa ny lokal') : t('admin.edit_venue', 'Redigera lokal')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1">Namn</label>
+                    <label className="block text-sm font-bold text-slate-700 mb-1">{t('admin.f_name', 'Namn')}</label>
                     <input type="text" value={editingVenue.name} onChange={e => setEditingVenue({...editingVenue, name: e.target.value})} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-morkbla outline-none" />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1">Bild-URL</label>
+                    <label className="block text-sm font-bold text-slate-700 mb-1">{t('admin.f_image', 'Bild-URL')}</label>
                     <input type="text" value={editingVenue.imageUrl} onChange={e => setEditingVenue({...editingVenue, imageUrl: e.target.value})} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-morkbla outline-none" />
                   </div>
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-bold text-slate-700 mb-1">Beskrivning</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-1">{t('admin.f_desc', 'Beskrivning')}</label>
                   <textarea rows={3} value={editingVenue.description} onChange={e => setEditingVenue({...editingVenue, description: e.target.value})} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-morkbla outline-none resize-none"></textarea>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1">Kapacitet (antal pers)</label>
+                    <label className="block text-sm font-bold text-slate-700 mb-1">{t('admin.f_capacity', 'Kapacitet (antal pers)')}</label>
                     <input type="number" value={editingVenue.capacity} onChange={e => setEditingVenue({...editingVenue, capacity: parseInt(e.target.value)})} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-morkbla outline-none" />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1">Pris (kr)</label>
+                    <label className="block text-sm font-bold text-slate-700 mb-1">{t('admin.f_price', 'Pris (kr)')}</label>
                     <input type="number" value={editingVenue.price || 0} onChange={e => setEditingVenue({...editingVenue, price: parseInt(e.target.value)})} className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-morkbla outline-none" />
                   </div>
                 </div>
                 <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
-                  <button onClick={() => setEditingVenue(null)} className="px-5 py-2.5 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition-colors">Avbryt</button>
+                  <button onClick={() => setEditingVenue(null)} className="px-5 py-2.5 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition-colors">{t('admin.btn_cancel', 'Avbryt')}</button>
                   <button onClick={handleSaveVenueEdit} disabled={isSaving} className="px-5 py-2.5 bg-morkbla text-white font-bold hover:bg-morkbla-800 rounded-lg transition-colors flex items-center">
-                    {isSaving ? 'Sparar...' : <><Save className="w-4 h-4 mr-2" /> Spara ändringar</>}
+                    {isSaving ? t('admin.btn_saving', 'Sparar...') : <><Save className="w-4 h-4 mr-2" /> {t('admin.btn_save', 'Spara ändringar')}</>}
                   </button>
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
                     <h3 className="font-bold text-lg text-slate-800 mb-1">{venue.name}</h3>
                     <p className="text-sm text-slate-500 line-clamp-2 mb-3">{venue.description}</p>
                     <div className="flex items-center text-xs font-semibold text-slate-500 bg-slate-50 p-2 rounded-lg inline-block">
-                      Kapacitet: {venue.capacity} pers
+                      {t('admin.lbl_capacity', 'Kapacitet: ')}{venue.capacity} {t('admin.lbl_pers', 'pers')}
                     </div>
                   </div>
                   <div className="border-t border-slate-100 p-4 bg-slate-50 flex justify-between">
@@ -315,34 +315,34 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
             </h2>
           </div>
           <div className="p-6 md:p-8">
-            <p className="text-slate-600 mb-6">Använd detta formulär för att spärra utvalda tider i bokningsportalen för underhåll eller interna evenemang.</p>
-            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Tiden har spärrats!'); }}>
+            <p className="text-slate-600 mb-6">{t('admin.block_desc', 'Använd detta formulär för att spärra utvalda tider i bokningsportalen för underhåll eller interna evenemang.')}</p>
+            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert(t('admin.success_block', 'Tiden har spärrats!')); }}>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1.5">Välj Lokal</label>
+                <label className="block text-sm font-bold text-slate-700 mb-1.5">{t('admin.b_select_venue', 'Välj Lokal')}</label>
                 <select className="w-full px-4 py-3 border border-beige-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none text-slate-800 bg-slate-50 focus:bg-white">
-                  <option value="">Välj...</option>
+                  <option value="">{t('admin.b_select', 'Välj...')}</option>
                   {venues.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
                 </select>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Datum</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-1.5">{t('admin.b_date', 'Datum')}</label>
                   <input type="date" required className="w-full px-4 py-3 border border-beige-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none text-slate-800 bg-slate-50 focus:bg-white" />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Tidslucka</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-1.5">{t('admin.b_timeslot', 'Tidslucka')}</label>
                   <select required className="w-full px-4 py-3 border border-beige-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none text-slate-800 bg-slate-50 focus:bg-white">
-                    <option value="">Välj tid...</option>
-                    <option value="08:00 - 12:00">Förmiddag (08:00 - 12:00)</option>
-                    <option value="13:00 - 17:00">Eftermiddag (13:00 - 17:00)</option>
-                    <option value="18:00 - 22:00">Kväll (18:00 - 22:00)</option>
-                    <option value="all">Heldag</option>
+                    <option value="">{t('admin.b_select_time', 'Välj tid...')}</option>
+                    <option value="08:00 - 12:00">{t('admin.b_morning', 'Förmiddag (08:00 - 12:00)')}</option>
+                    <option value="13:00 - 17:00">{t('admin.b_afternoon', 'Eftermiddag (13:00 - 17:00)')}</option>
+                    <option value="18:00 - 22:00">{t('admin.b_evening', 'Kväll (18:00 - 22:00)')}</option>
+                    <option value="all">{t('admin.b_fullday', 'Heldag')}</option>
                   </select>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1.5">Anledning (Intern anteckning)</label>
-                <input type="text" placeholder="T.ex. Renovering, internt möte..." required className="w-full px-4 py-3 border border-beige-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none text-slate-800 bg-slate-50 focus:bg-white" />
+                <label className="block text-sm font-bold text-slate-700 mb-1.5">{t('admin.b_reason', 'Anledning (Intern anteckning)')}</label>
+                <input type="text" placeholder={t('admin.b_reason_ph', 'T.ex. Renovering, internt möte...') as string} required className="w-full px-4 py-3 border border-beige-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none text-slate-800 bg-slate-50 focus:bg-white" />
               </div>
               <button type="submit" className="w-full md:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-sm flex items-center justify-center">
                 <Ban className="w-5 h-5 mr-2" /> Spärra vald tid
