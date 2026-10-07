@@ -45,7 +45,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
   const fetchAvailability = async (date: Date) => {
     const dStr = date.toISOString().split('T')[0];
     try {
-      const res = await fetch(`/api/slots?venueId=\${venueId}&date=\${dStr}`);
+      const res = await fetch(`/api/slots?venueId=${venueId}&date=${dStr}`);
       if (res.ok) {
         const data = await res.json();
         setUnavailableSlots(data.unavailableSlots || []);
@@ -58,7 +58,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
   const generateDays = () => {
     const days = [];
     for (let i = 0; i < startDay; i++) {
-      days.push(<div key={`empty-\${i}`} className="p-2"></div>);
+      days.push(<div key={`empty-${i}`} className="p-2"></div>);
     }
     for (let d = 1; d <= daysInMonth; d++) {
       const date = new Date(year, month, d);
@@ -74,7 +74,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
             setSelectedSlot(null);
             setCustomAlert(null);
           }}
-          className={`w-10 h-10 rounded-full mx-auto flex items-center justify-center text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-morkbla \${
+          className={`w-10 h-10 rounded-full mx-auto flex items-center justify-center text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-morkbla ${
             isSelected 
               ? 'bg-morkbla text-white shadow-md scale-110' 
               : isPast 
@@ -165,7 +165,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
       });
       
       if (res.ok) {
-        setSuccessMessage(`\${t("widget.success" as any)} \${selectedSlot}!`);
+        setSuccessMessage(`${t("widget.success" as any)} ${selectedSlot}!`);
         setStep(4); // Success step
       }
     } catch (err) {
@@ -209,20 +209,20 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
       {/* Stepper Header */}
       <div className="bg-slate-50 border-b border-slate-100 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm \${step >= 1 ? 'bg-morkbla text-white' : 'bg-slate-200 text-slate-500'}`}>1</div>
-          <span className={`text-xs font-bold uppercase tracking-widest hidden sm:block \${step >= 1 ? 'text-morkbla' : 'text-slate-400'}`}>{lang === 'en' ? 'Time' : 'Tid'}</span>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${step >= 1 ? 'bg-morkbla text-white' : 'bg-slate-200 text-slate-500'}`}>1</div>
+          <span className={`text-xs font-bold uppercase tracking-widest hidden sm:block ${step >= 1 ? 'text-morkbla' : 'text-slate-400'}`}>{lang === 'en' ? 'Time' : 'Tid'}</span>
         </div>
-        <div className={`flex-1 h-1 mx-4 rounded-full \${step >= 2 ? 'bg-morkbla' : 'bg-slate-200'}`}></div>
+        <div className={`flex-1 h-1 mx-4 rounded-full ${step >= 2 ? 'bg-morkbla' : 'bg-slate-200'}`}></div>
         
         <div className="flex items-center gap-2">
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm \${step >= 2 ? 'bg-morkbla text-white' : 'bg-slate-200 text-slate-500'}`}>2</div>
-          <span className={`text-xs font-bold uppercase tracking-widest hidden sm:block \${step >= 2 ? 'text-morkbla' : 'text-slate-400'}`}>{lang === 'en' ? 'Details' : 'Uppgifter'}</span>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${step >= 2 ? 'bg-morkbla text-white' : 'bg-slate-200 text-slate-500'}`}>2</div>
+          <span className={`text-xs font-bold uppercase tracking-widest hidden sm:block ${step >= 2 ? 'text-morkbla' : 'text-slate-400'}`}>{lang === 'en' ? 'Details' : 'Uppgifter'}</span>
         </div>
-        <div className={`flex-1 h-1 mx-4 rounded-full \${step >= 3 ? 'bg-morkbla' : 'bg-slate-200'}`}></div>
+        <div className={`flex-1 h-1 mx-4 rounded-full ${step >= 3 ? 'bg-morkbla' : 'bg-slate-200'}`}></div>
         
         <div className="flex items-center gap-2">
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm \${step >= 3 ? 'bg-morkbla text-white' : 'bg-slate-200 text-slate-500'}`}>3</div>
-          <span className={`text-xs font-bold uppercase tracking-widest hidden sm:block \${step >= 3 ? 'text-morkbla' : 'text-slate-400'}`}>{lang === 'en' ? 'Confirm' : 'Bekräfta'}</span>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${step >= 3 ? 'bg-morkbla text-white' : 'bg-slate-200 text-slate-500'}`}>3</div>
+          <span className={`text-xs font-bold uppercase tracking-widest hidden sm:block ${step >= 3 ? 'text-morkbla' : 'text-slate-400'}`}>{lang === 'en' ? 'Confirm' : 'Bekräfta'}</span>
         </div>
       </div>
 
@@ -278,7 +278,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
                         key={slot}
                         onClick={() => setSelectedSlot(slot)}
                         disabled={isUnavailable}
-                        className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all \${
+                        className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
                           isSelected ? 'border-morkbla bg-morkbla text-white shadow-md' 
                           : isUnavailable ? 'border-slate-100 bg-slate-50 text-slate-400 cursor-not-allowed opacity-60'
                           : 'border-slate-200 hover:border-ljusturkos-300 hover:bg-ljusturkos-50 text-slate-700'
@@ -299,7 +299,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
               <button
                 onClick={handleNextToForm}
                 disabled={!selectedDate || !selectedSlot || isLocking}
-                className={`w-full py-4 px-4 rounded-xl font-bold text-lg transition-all flex justify-center items-center \${
+                className={`w-full py-4 px-4 rounded-xl font-bold text-lg transition-all flex justify-center items-center ${
                   selectedDate && selectedSlot && !isLocking
                     ? 'bg-morkbla hover:bg-morkbla-900 text-white shadow-md'
                     : 'bg-slate-100 text-slate-400 cursor-not-allowed'
