@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getTranslation } from '@/lib/i18n';
 import { Lock } from 'lucide-react';
@@ -11,7 +11,6 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
   const router = useRouter();
   
   // Vault State
-  const [showVault, setShowVault] = useState(false);
   const [vaultCode, setVaultCode] = useState('');
   const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
 
@@ -21,13 +20,8 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
     setState('loading');
     setTimeout(() => {
       setState('success');
-      // Set the fake auth cookie for demo purposes
-      document.cookie = "session=client; path=/";
-      // Redirect after showing the message for 5 seconds
-      setTimeout(() => {
-        router.push('/profile');
-        router.refresh();
-      }, 5000);
+      // Intentionally NOT logging in or redirecting here. 
+      // The presenter must use the PIN code to unlock the actual login options.
     }, 2000);
   };
 
@@ -35,9 +29,9 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
     e.preventDefault();
     if (vaultCode === '981030') {
       setIsVaultUnlocked(true);
-      setShowVault(false);
     } else {
-      alert(lang === 'en' ? 'Incorrect code' : 'Fel kod');
+      alert(lang === 'en' ? 'Incorrect PIN code' : 'Fel PIN-kod');
+      setVaultCode('');
     }
   };
 
@@ -85,67 +79,70 @@ export default function BankIDSimulator({ lang }: { lang: string }) {
       )}
 
       {state === 'success' && (
-        <div className="flex flex-col items-center py-6 animate-in zoom-in-95 duration-300">
+        <div className="flex flex-col items-center py-2 animate-in zoom-in-95 duration-300 w-full">
           <div className="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-6 ring-8 ring-green-50/50">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
           </div>
           <h2 className="text-xl font-bold text-slate-800 tracking-tight mb-4">{t("auth.success" as any)}</h2>
           
-          <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl text-sm font-medium mb-6 text-left">
+          <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl text-sm font-medium mb-6 text-left w-full shadow-sm">
             <span className="font-bold block mb-1">Demonstration</span>
             {lang === 'en' 
               ? 'This is a simulated BankID process. For production, integration with a certified BankID broker (e.g. Criipto, GrandID) is required.' 
               : 'Detta är en simulerad BankID-process. För produktion krävs integration med en certifierad BankID-mäklare (ex. Criipto, GrandID).'}
           </div>
 
-          <p className="text-slate-500 text-sm font-medium animate-pulse">{t("auth.redirecting" as any)}</p>
+          <div className="w-full mt-2 pt-6 border-t border-slate-100 flex flex-col items-center">
+            {!isVaultUnlocked ? (
+              <form onSubmit={handleVaultSubmit} className="flex flex-col items-center gap-3 animate-in fade-in duration-500">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5" /> Presenter Unlock
+                </p>
+                <div className="flex gap-2">
+                  <input 
+                    type="password" 
+                    value={vaultCode}
+                    onChange={(e) => setVaultCode(e.target.value)}
+                    placeholder="PIN" 
+                    className="w-24 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center text-sm focus:bg-white focus:ring-2 focus:ring-morkbla outline-none transition-all font-bold"
+                    autoFocus
+                  />
+                  <button type="submit" className="bg-morkbla hover:bg-morkbla-900 text-white px-4 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all active:scale-95">
+                    Lås upp
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="w-full animate-in fade-in slide-in-from-bottom-2">
+                <div className="flex justify-between items-center mb-4">
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Presenter Tools</p>
+                  <button onClick={() => setIsVaultUnlocked(false)} className="text-xs text-morkbla hover:underline font-bold">Lås igen</button>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <button 
+                    onClick={() => { document.cookie = "session=client; path=/"; router.push('/profile'); router.refresh(); }} 
+                    className="w-full text-left px-5 py-4 bg-slate-50 hover:bg-ljusturkos-50 border border-slate-200 rounded-xl transition-colors group flex justify-between items-center shadow-sm"
+                  >
+                    <div>
+                      <p className="font-bold text-morkbla-900">{lang === 'en' ? 'Log in as Client' : 'Logga in som Klient'}</p>
+                      <p className="text-xs text-slate-500">test.forening@gmail.com</p>
+                    </div>
+                  </button>
+                  <button 
+                    onClick={() => { document.cookie = "session=admin; path=/"; router.push('/admin'); router.refresh(); }} 
+                    className="w-full text-left px-5 py-4 bg-slate-50 hover:bg-red-50 border border-slate-200 rounded-xl transition-colors group flex justify-between items-center shadow-sm"
+                  >
+                    <div>
+                      <p className="font-bold text-red-900">{lang === 'en' ? 'Log in as Admin' : 'Logga in som Admin'}</p>
+                      <p className="text-xs text-slate-500">admin@landskrona.se</p>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
-
-      {/* Demo Credentials Vault */}
-      <div className="w-full mt-10 pt-6 border-t border-slate-100 flex flex-col items-center">
-        {!isVaultUnlocked ? (
-          <>
-            <button onClick={() => setShowVault(!showVault)} className="p-2 text-slate-300 hover:text-morkbla transition-colors rounded-full hover:bg-slate-50" title="Unlock Presenter Tools">
-              <Lock className="w-5 h-5" />
-            </button>
-            {showVault && (
-              <form onSubmit={handleVaultSubmit} className="mt-4 flex gap-2 animate-in fade-in slide-in-from-top-2">
-                <input 
-                  type="password" 
-                  value={vaultCode}
-                  onChange={(e) => setVaultCode(e.target.value)}
-                  placeholder="PIN" 
-                  className="w-24 px-3 py-2 border border-slate-300 rounded-lg text-center text-sm focus:ring-2 focus:ring-morkbla outline-none"
-                  autoFocus
-                />
-                <button type="submit" className="bg-morkbla text-white px-3 py-2 rounded-lg text-sm font-bold">Lås upp</button>
-              </form>
-            )}
-          </>
-        ) : (
-          <div className="w-full animate-in fade-in slide-in-from-bottom-2">
-            <div className="flex justify-between items-center mb-4">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Presenter Tools</p>
-              <button onClick={() => setIsVaultUnlocked(false)} className="text-xs text-morkbla hover:underline font-bold">Lås</button>
-            </div>
-            <div className="flex flex-col gap-3">
-              <button onClick={() => { document.cookie = "session=client; path=/"; router.push('/profile'); router.refresh(); }} className="w-full text-left px-5 py-4 bg-slate-50 hover:bg-ljusturkos-50 border border-slate-200 rounded-xl transition-colors group flex justify-between items-center">
-                <div>
-                  <p className="font-bold text-morkbla-900">{lang === 'en' ? 'Log in as Client' : 'Logga in som Klient'}</p>
-                  <p className="text-xs text-slate-500">test.forening@gmail.com</p>
-                </div>
-              </button>
-              <button onClick={() => { document.cookie = "session=admin; path=/"; router.push('/admin'); router.refresh(); }} className="w-full text-left px-5 py-4 bg-slate-50 hover:bg-red-50 border border-slate-200 rounded-xl transition-colors group flex justify-between items-center">
-                <div>
-                  <p className="font-bold text-red-900">{lang === 'en' ? 'Log in as Admin' : 'Logga in som Admin'}</p>
-                  <p className="text-xs text-slate-500">admin@landskrona.se</p>
-                </div>
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
 
     </div>
   );
