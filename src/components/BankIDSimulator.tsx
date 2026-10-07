@@ -89,7 +89,7 @@ export default function BankIDSimulator({ lang = 'sv' }: { lang?: string }) {
             className="w-full text-left px-5 py-4 bg-slate-50 hover:bg-ljusturkos-50 border border-slate-200 rounded-xl transition-colors group flex justify-between items-center"
           >
             <div>
-              <p className="font-bold text-morkbla-900">Logga in som Förening / Klient</p>
+              <p className="font-bold text-morkbla-900">{lang === 'en' ? 'Log in as Association / Client' : lang === 'da' ? 'Log ind som Forening / Klient' : 'Logga in som Förening / Klient'}</p>
               <p className="text-xs text-slate-500">test.forening@gmail.com</p>
             </div>
             <svg className="w-5 h-5 text-slate-400 group-hover:text-morkbla" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
@@ -103,7 +103,7 @@ export default function BankIDSimulator({ lang = 'sv' }: { lang?: string }) {
             className="w-full text-left px-5 py-4 bg-slate-50 hover:bg-red-50 border border-slate-200 rounded-xl transition-colors group flex justify-between items-center"
           >
             <div>
-              <p className="font-bold text-red-900">Logga in som Administratör</p>
+              <p className="font-bold text-red-900">{lang === 'en' ? 'Log in as Administrator' : lang === 'da' ? 'Log ind som Administrator' : 'Logga in som Administratör'}</p>
               <p className="text-xs text-slate-500">Kulturförvaltningen (admin@landskrona.se)</p>
             </div>
             <svg className="w-5 h-5 text-slate-400 group-hover:text-red-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>

@@ -66,11 +66,11 @@ export default function HamburgerMenu({ lang, session }: { lang: string, session
                   </Link>
                 ) : (
                   <Link href="/profile" onClick={() => setIsOpen(false)} className="block px-5 py-3 text-sm font-bold text-morkbla bg-ljusturkos-50 hover:bg-ljusturkos-100 transition-colors">
-                    Mina Sidor
+                    {t('profile.title', 'Mina Sidor')}
                   </Link>
                 )}
                 <button onClick={handleLogout} className="w-full text-left px-5 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium">
-                  Logga ut
+                  {t('menu.logout', 'Logga ut')}
                 </button>
               </>
             )}

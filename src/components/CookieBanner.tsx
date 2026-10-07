@@ -21,7 +21,7 @@ export default function CookieBanner({ lang }: { lang: string }) {
         <h3 className="font-bold text-lg mb-2">Cookies & Integritet</h3>
         <p className="text-sm text-blue-100">
           Landskrona stad använder kakor (cookies) för att ge dig en så bra upplevelse som möjligt av vår webbplats. 
-          Genom att fortsätta använda webbplatsen godkänner du att vi använder kakor. Vi hanterar dina personuppgifter 
+          {t('cookie.text', 'Genom att fortsätta använda webbplatsen godkänner du att vi använder kakor. Vi hanterar dina personuppgifter')} 
           i enlighet med Dataskyddsförordningen (GDPR).
         </p>
       </div>
