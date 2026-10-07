@@ -39,15 +39,13 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
     
     // Sync with backend to actually lock/unlock the slot globally
     const booking = bookings.find(b => b.id === id);
-    if (booking) {
-      if (newStatus === 'approved') {
+    if (booking && booking.id.startsWith('REQ-')) {
         fetch('/api/admin/bookings', {
-          method: 'POST',
+          method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ venueId: booking.venueId, date: booking.date, slotTime: booking.slotTime, reason: booking.user + ' (Approved)' })
+          body: JSON.stringify({ reqId: booking.id, status: newStatus })
         }).catch(console.error);
       }
-    }
 
   };
 

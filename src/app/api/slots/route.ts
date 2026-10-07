@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { store } from '@/lib/store';
+import { supabase } from '@/lib/supabase';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,29 +10,18 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Missing venueId or date' }, { status: 400 });
   }
 
-  // Cleanup expired locks
-  const now = Date.now();
-  for (const [key, lock] of Array.from(store.lockedSlots.entries())) {
-    if (now > lock.expiresAt) {
-      store.lockedSlots.delete(key);
-    }
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('slot_time')
+    .eq('venue_id', venueId)
+    .eq('date', date)
+    .in('status', ['pending', 'approved', 'blocked']);
+
+  if (error) {
+    return NextResponse.json({ error: 'Failed to fetch slots' }, { status: 500 });
   }
 
-  const prefix = `${venueId}|${date}|`;
-  const unavailableSlots: string[] = [];
-
-  for (const key of Array.from(store.lockedSlots.keys())) {
-    if (key.startsWith(prefix)) {
-      unavailableSlots.push(key.replace(prefix, ''));
-    }
-  }
-  
-  for (const key of Array.from(store.confirmedBookings.keys())) {
-    if (key.startsWith(prefix)) {
-      unavailableSlots.push(key.replace(prefix, ''));
-    }
-  }
-
+  const unavailableSlots = data.map(d => d.slot_time);
   return NextResponse.json({ unavailableSlots });
 }
 
@@ -44,36 +33,61 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
   }
 
-  const key = `${venueId}|${date}|${slotTime}`;
-  
+  const reqId = `REQ-\${Math.floor(Math.random() * 100000)}`;
+
   if (action === 'lock') {
-    if (store.confirmedBookings.has(key)) {
+    // Check if it exists
+    const { data } = await supabase
+      .from('bookings')
+      .select('id')
+      .eq('venue_id', venueId)
+      .eq('date', date)
+      .eq('slot_time', slotTime)
+      .in('status', ['pending', 'approved', 'blocked']);
+      
+    if (data && data.length > 0) {
       return NextResponse.json({ success: false, error: 'Already booked' }, { status: 409 });
     }
-    
-    const existingLock = store.lockedSlots.get(key);
-    if (existingLock && existingLock.expiresAt > Date.now()) {
-      return NextResponse.json({ success: false, error: 'Currently locked by another user' }, { status: 409 });
-    }
 
-    store.lockedSlots.set(key, { expiresAt: Date.now() + 10 * 60 * 1000 });
+    // Insert lock (as pending)
+    await supabase.from('bookings').insert({
+      req_id: reqId,
+      venue_id: venueId,
+      date,
+      slot_time: slotTime,
+      status: 'pending',
+      type: 'public',
+      booked_at: Date.now()
+    });
+
     return NextResponse.json({ success: true });
   }
   
   if (action === 'release') {
-    store.lockedSlots.delete(key);
+    await supabase
+      .from('bookings')
+      .delete()
+      .eq('venue_id', venueId)
+      .eq('date', date)
+      .eq('slot_time', slotTime)
+      .eq('status', 'pending');
+      
     return NextResponse.json({ success: true });
   }
   
   if (action === 'confirm') {
-    store.lockedSlots.delete(key);
-    store.confirmedBookings.set(key, { 
-      type: 'public', 
-      name, 
-      orgNum, 
-      email, 
-      bookedAt: Date.now() 
-    });
+    await supabase
+      .from('bookings')
+      .update({
+        user_name: name || 'Private Citizen',
+        org_num: orgNum,
+        email: email
+      })
+      .eq('venue_id', venueId)
+      .eq('date', date)
+      .eq('slot_time', slotTime)
+      .eq('status', 'pending');
+
     return NextResponse.json({ success: true });
   }
 
