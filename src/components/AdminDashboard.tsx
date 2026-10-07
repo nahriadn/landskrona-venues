@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { Calendar, Settings, FileText, Ban, Download, CheckCircle, XCircle, ChevronRight, Plus, Trash2, Save, Upload } from 'lucide-react';
 import { getTranslation } from '@/lib/i18n';
