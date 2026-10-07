@@ -8,7 +8,15 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
   const [activeTab, setActiveTab] = useState<'bookings' | 'venues' | 'block'>('bookings');
   
   // Bookings State
-  const [bookings, setBookings] = useState(mockBookingsData);
+  
+  const [bookings, setBookings] = useState<any[]>([]);
+  useEffect(() => {
+    fetch('/api/admin/bookings')
+      .then(res => res.json())
+      .then(data => setBookings(data.bookings || []))
+      .catch(err => console.error(err));
+  }, []);
+
   const [filter, setFilter] = useState('all');
   
   // Venues CMS State
@@ -26,7 +34,21 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
   }, []);
 
   const handleStatusChange = (id: string, newStatus: string) => {
+    
     setBookings(bookings.map(b => b.id === id ? { ...b, status: newStatus } : b));
+    
+    // Sync with backend to actually lock/unlock the slot globally
+    const booking = bookings.find(b => b.id === id);
+    if (booking) {
+      if (newStatus === 'approved') {
+        fetch('/api/admin/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ venueId: booking.venueId, date: booking.date, slotTime: booking.slotTime, reason: booking.user + ' (Approved)' })
+        }).catch(console.error);
+      }
+    }
+
   };
 
   const saveVenues = async (updatedVenues: any[]) => {
@@ -316,7 +338,33 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
           </div>
           <div className="p-6 md:p-8">
             <p className="text-slate-600 mb-6">{t('admin.block_desc', 'Använd detta formulär för att spärra utvalda tider i bokningsportalen för underhåll eller interna evenemang.')}</p>
-            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert(t('admin.success_block', 'Tiden har spärrats!')); }}>
+            
+  <form className="space-y-6" onSubmit={async (e) => { 
+    e.preventDefault(); 
+    const form = e.target as any;
+    const venueId = form.elements[0].value;
+    const date = form.elements[1].value;
+    const slotTime = form.elements[2].value;
+    const reason = form.elements[3].value;
+    
+    if (!venueId || !date || !slotTime) {
+      alert("Missing fields"); return;
+    }
+    
+    await fetch('/api/admin/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ venueId, date, slotTime, reason })
+    });
+    
+    alert(t('admin.success_block', 'Tiden har spärrats!')); 
+    
+    // Refresh bookings
+    fetch('/api/admin/bookings')
+      .then(res => res.json())
+      .then(data => setBookings(data.bookings || []));
+  }}>
+
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1.5">{t('admin.b_select_venue', 'Välj Lokal')}</label>
                 <select className="w-full px-4 py-3 border border-beige-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none text-slate-800 bg-slate-50 focus:bg-white">
