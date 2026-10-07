@@ -16,6 +16,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
   const [showModal, setShowModal] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [customAlert, setCustomAlert] = useState<string | null>(null);
 
   const [name, setName] = useState('');
   const [orgNum, setOrgNum] = useState('');
@@ -87,7 +88,7 @@ export default function BookingWidget({ venueId, lang }: { venueId: string, lang
       if (data.success) {
         setShowModal(true);
       } else {
-        alert(t("widget.alert" as any));
+        setCustomAlert(t("widget.alert" as any) as string);
         fetchAvailability(selectedDate);
         setSelectedSlot(null);
       }
