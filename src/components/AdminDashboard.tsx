@@ -114,7 +114,7 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
             onClick={() => setActiveTab('block')}
             className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center gap-2 whitespace-nowrap ${activeTab === 'block' ? 'bg-white text-morkbla shadow-sm' : 'text-slate-600 hover:text-slate-800'}`}
           >
-            <Ban className="w-4 h-4" /> Spärra Tider
+            <Ban className="w-4 h-4" /> {t('admin.block_tab', 'Spärra Tider')}
           </button>
         </div>
       </div>
@@ -311,7 +311,7 @@ export default function AdminDashboard({ lang = 'sv' }: { lang?: string }) {
         <div className="bg-white rounded-2xl shadow-sm border border-beige-200 overflow-hidden relative z-10 max-w-3xl">
           <div className="p-6 md:p-8 border-b border-beige-200 flex flex-col md:flex-row md:items-center justify-between gap-5 bg-slate-50/50">
             <h2 className="text-xl font-bold text-morkbla flex items-center">
-              Spärra Tider / Blockera Datum
+              {t('admin.block_title', 'Spärra Tider / Blockera Datum')}
             </h2>
           </div>
           <div className="p-6 md:p-8">

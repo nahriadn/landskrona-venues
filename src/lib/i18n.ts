@@ -1,5 +1,6 @@
 export const translations = {
   sv: {
+    "hero.badge": "Officiell Bokningsportal",
     "hero.title": "Boka lokaler för möten och evenemang i Landskrona",
     "hero.subtitle": "Upptäck och reservera officiella utrymmen för kultur, utbildning och samhällsengagemang.",
     "venue.capacity": "Kapacitet:",
@@ -24,6 +25,29 @@ export const translations = {
     "widget.processing": "Behandlar...",
     "widget.alert": "Vi beklagar, men den här tiden blev precis bokad av en annan användare. Vänligen välj en annan tid.",
     "widget.locked_msg": "Tiden är låst i 10 minuter",
+    "profile.title": "Mina Sidor",
+    "profile.org": "Organisation",
+    "profile.type": "Användartyp",
+    "profile.edit": "Redigera uppgifter",
+    "profile.bookings": "Dina Kommande Bokningar",
+    "profile.b1_title": "Styrelsemöte",
+    "profile.b1_venue": "Mötesrum Konsthallen",
+    "profile.approved": "Godkänd",
+    "profile.oct": "Oktober",
+    "profile.b2_title": "Årsmöte",
+    "profile.b2_venue": "Hörsalen (Stadsbiblioteket)",
+    "profile.review": "Granskas",
+    "profile.nov": "November",
+    "profile.cancel_title": "Behöver du avboka?",
+    "profile.cancel_desc": "Avbokning måste ske senast 24 timmar innan hyrestillfället för att undvika avgift.",
+    "profile.cancel_btn": "Kontakta kundtjänst för avbokning",
+"admin.block_title": "Spärra Tider / Blockera Datum",
+    "admin.block_tab": "Spärra Tider",
+    "admin.select_venue": "Välj Lokal",
+    "admin.date": "Datum",
+    "admin.time_ph": "Tid (ex. 08:00 - 12:00)",
+    "admin.reason": "Orsak (Valfritt)",
+    "admin.create_block": "Skapa Spärr",
     "menu.contact": "Kontakta oss",
     "menu.callback": "Bli uppringd",
     "menu.login": "Logga in",
@@ -96,6 +120,7 @@ export const translations = {
     "admin.no_results_desc": "Kunde inte hitta några bokningar som matchar ditt valda filter."
   },
   en: {
+    "hero.badge": "Official Booking Portal",
     "hero.title": "Book venues for meetings and events in Landskrona",
     "hero.subtitle": "Discover and reserve official spaces for culture, education, and community engagement.",
     "venue.capacity": "Capacity:",
@@ -192,6 +217,7 @@ export const translations = {
     "admin.no_results_desc": "Could not find any bookings matching your selected filter."
   },
   da: {
+    "hero.badge": "Officiel Bookingportal",
     "hero.title": "Book lokaler til møder og arrangementer i Landskrona",
     "hero.subtitle": "Opdag og reserver officielle rum til kultur, uddannelse og samfundsengagement.",
     "venue.capacity": "Kapacitet:",
@@ -216,6 +242,29 @@ export const translations = {
     "widget.processing": "Behandler...",
     "widget.alert": "Vi beklager, men denne tid blev netop booket af en anden bruger. Vælg venligst en anden tid.",
     "widget.locked_msg": "Tiden er låst i 10 minutter",
+    "profile.title": "Mine Sider",
+    "profile.org": "Organisation",
+    "profile.type": "Brugertype",
+    "profile.edit": "Rediger oplysninger",
+    "profile.bookings": "Dine kommende bookinger",
+    "profile.b1_title": "Bestyrelsesmøde",
+    "profile.b1_venue": "Mødelokale Kunsthallen",
+    "profile.approved": "Godkendt",
+    "profile.oct": "Oktober",
+    "profile.b2_title": "Årsmøde",
+    "profile.b2_venue": "Foredragssalen (Stadsbiblioteket)",
+    "profile.review": "Gennemgås",
+    "profile.nov": "November",
+    "profile.cancel_title": "Brug for at aflyse?",
+    "profile.cancel_desc": "Afbestilling skal ske senest 24 timer før lejeperioden for at undgå gebyrer.",
+    "profile.cancel_btn": "Kontakt kundeservice for afbestilling",
+"admin.block_title": "Bloker Tider / Bloker Datoer",
+    "admin.block_tab": "Bloker Tider",
+    "admin.select_venue": "Vælg Lokale",
+    "admin.date": "Dato",
+    "admin.time_ph": "Tid (f.eks. 08:00 - 12:00)",
+    "admin.reason": "Årsag (Valgfrit)",
+    "admin.create_block": "Opret Blokering",
     "menu.contact": "Kontakt os",
     "menu.callback": "Bliv ringet op",
     "menu.login": "Log ind",
@@ -353,7 +402,7 @@ export const venueTranslations: Record<string, any> = {
 export function getTranslation(lang: string) {
   const dict = translations[lang as keyof typeof translations] || translations.sv;
   return (key: keyof typeof translations.sv, fallback?: string) => {
-    return dict[key] || translations.sv[key] || fallback || key;
+    return (dict as any)[key] || (translations.sv as any)[key] || fallback || key;
   };
 }
 

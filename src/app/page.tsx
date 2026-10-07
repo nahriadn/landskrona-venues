@@ -38,7 +38,7 @@ export default async function Home() {
         
         <div className="container mx-auto px-4 lg:px-8 max-w-7xl relative z-10 flex flex-col items-center text-center">
           <span className="bg-morkbla-800/60 border border-morkbla-400/30 text-bla-100 text-sm font-semibold px-5 py-2 rounded-full mb-8 backdrop-blur-md shadow-sm uppercase tracking-widest">
-            Officiell Bokningsportal
+            {t("hero.badge" as any, "Officiell Bokningsportal")}
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight mb-6 max-w-4xl leading-[1.15] text-white drop-shadow-md">
             {t("hero.title" as any)}
