@@ -1,5 +1,6 @@
 import BankIDSimulator from '@/components/BankIDSimulator';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { getTranslation } from '@/lib/i18n';
 import Link from 'next/link';
 
@@ -7,6 +8,13 @@ export default async function RegisterPage() {
   const cookieStore = await cookies();
   const lang = cookieStore.get('lang')?.value || 'sv';
   const t = getTranslation(lang);
+
+  async function simulateEmailRegister() {
+    'use server';
+    const cookiesList = await cookies();
+    cookiesList.set('session', 'client', { path: '/' });
+    redirect('/profile');
+  }
 
   return (
     <main className="flex-grow bg-slate-50 min-h-screen">
@@ -63,7 +71,7 @@ export default async function RegisterPage() {
               </div>
               
               <div className="bg-white border border-slate-200 rounded-3xl shadow-lg p-8 md:p-10 w-full">
-                <form className="space-y-5" action={() => {}}>
+                <form className="space-y-5" action={simulateEmailRegister}>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-slate-700 mb-1.5">
@@ -72,6 +80,7 @@ export default async function RegisterPage() {
                       <input 
                         type="text" 
                         placeholder="Anna" 
+                        required
                         className="w-full px-4 py-3.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800"
                       />
                     </div>
@@ -82,6 +91,7 @@ export default async function RegisterPage() {
                       <input 
                         type="text" 
                         placeholder="Andersson" 
+                        required
                         className="w-full px-4 py-3.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800"
                       />
                     </div>
@@ -93,6 +103,7 @@ export default async function RegisterPage() {
                     <input 
                       type="email" 
                       placeholder="namn@exempel.se" 
+                      required
                       className="w-full px-4 py-3.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800"
                     />
                   </div>
@@ -103,12 +114,13 @@ export default async function RegisterPage() {
                     <input 
                       type="password" 
                       placeholder="••••••••" 
+                      required
                       className="w-full px-4 py-3.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-morkbla focus:border-morkbla outline-none transition-all text-slate-800"
                     />
                   </div>
                   
                   <div className="pt-4">
-                    <button type="button" className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md">
+                    <button type="submit" className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md">
                       {lang === 'en' ? 'Create Account' : lang === 'da' ? 'Opret Konto' : 'Skapa Konto'}
                     </button>
                   </div>
