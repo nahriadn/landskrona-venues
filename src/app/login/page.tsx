@@ -28,7 +28,7 @@ export default async function LoginPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start relative">
           
           {/* Left Column: BankID (Fast Path) */}
           <div className="flex flex-col items-center">
